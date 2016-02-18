@@ -11,6 +11,7 @@
                 <th>ID</th>
                 <th>Name</th>
                 <th>Description</th>
+                <th>Category</th>
                 <th>Price</th>
                 <th>Featured</th>
                 <th>Recommend</th>
@@ -21,15 +22,18 @@
                 <td>{{$product->id}}</td>
                 <td>{{$product->name}}</td>
                 <td>{{$product->description}}</td>
+                <td>{{$product->category->name}}</td>
                 <td>{{$product->price}}</td>
                 <td>{{$product->featured}}</td>
                 <td>{{$product->recommend}}</td>
                 <td>
                     <a href="{{ route('products.edit', ['id'=>$product->id]) }}">Edit</a> |
-                    <a href="{{ route('products.destroy', ['id'=>$product->id]) }}">Delete</a>
+                    <a href="{{ route('products.destroy', ['id'=>$product->id]) }}">Delete</a> |
+                    <a href="{{ route('products.images', ['id'=>$product->id]) }}">Images</a>
                 </td> 
             </tr>
             @endforeach
         </table>
+        {!! $products->render() !!}
     </div>
 @endsection

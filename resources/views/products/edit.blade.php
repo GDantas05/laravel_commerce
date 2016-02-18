@@ -16,6 +16,10 @@
                 {!! Form::text('name', $product->name, ['class'=>'form-control']) !!}
             </div>
             <div class="form-group">
+                {!! Form::label('category', 'Category: ') !!}
+                {!! Form::select('category_id', $categories, $product->category->id, ['class'=>'form-control']) !!}
+            </div>
+            <div class="form-group">
                 {!! Form::label('description', 'Description: ') !!}
                 {!! Form::textarea('description', $product->description, ['class'=>'form-control']) !!}
             </div>
@@ -25,11 +29,11 @@
             </div>
             <div class="form-group">
                 {!! Form::label('featured', 'Featured: ') !!}
-                {!! Form::checkbox('featured', null, $product->featured, ['class'=>'form-control']) !!}
+                {!! Form::checkbox('featured', null, $product->featured) !!}
             </div>
             <div class="form-group">
                 {!! Form::label('recommend', 'Recommend: ') !!}
-                {!! Form::checkbox('recommend', null, $product->recommend, ['class'=>'form-control']) !!}
+                {!! Form::checkbox('recommend', null, $product->recommend) !!}
             </div>
             <div class="form-group">
                 {!! Form::submit('Edit Product', ['class'=>'btn btn-primary']) !!}
