@@ -10,15 +10,17 @@
 | and give it the controller to call when that URI is requested.
 |
 */
-Route::pattern('id', '[0-9]+'); //CRIA UMA EXPRESSÃO REGULAR, QUALQUER PARÂMETRO COM O NOME ID DEVE SER NUMÉRICO COM PELO MENOS UM DÍGITO
+//Route::pattern('id', '[0-9]+'); //CRIA UMA EXPRESSÃO REGULAR, QUALQUER PARÂMETRO COM O NOME ID DEVE SER NUMÉRICO COM PELO MENOS UM DÍGITO
 
-Route::get('user/{id?}', function($id = 123){
+/*Route::get('user/{id?}', function($id = 123){
    if ($id)
     return "Olá $id";
     
    return "Não possui id";        
-});
-//Route::group(['middleware' => 'web'], function () { Route::get('/my-form', 'MyController @xxxx '); });
+});*/
+
+Route::get('/', 'StoreController@index');
+
 Route::group(['prefix' => 'admin', 'middleware' => 'web', 'where' => ['id' => '[0-9]+']], function() {
     
     Route::group(['prefix' => 'products'], function(){
@@ -48,14 +50,6 @@ Route::group(['prefix' => 'admin', 'middleware' => 'web', 'where' => ['id' => '[
    });
 });
 
-Route::get('category/{category}', function (CodeCommerce\Category $category) {
-   return $category->name; 
-});
-
-Route::get('/', function () {
-    return view('welcome');
-});
-
 //Route::get('admin/categories', 'AdminCategoriesController@index');
 //Route::get('admin/products', 'AdminProductsController@index');
 
@@ -70,6 +64,6 @@ Route::get('/', function () {
 |
 */
 
-Route::group(['middleware' => ['web']], function () {
+/*Route::group(['middleware' => ['web']], function () {
     //
-});
+});*/
