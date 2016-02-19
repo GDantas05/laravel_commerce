@@ -36,6 +36,10 @@
                 {!! Form::checkbox('recommend', null, false) !!}
             </div>
             <div class="form-group">
+                {!! Form::label('tags','Tags:(separadas por vírgula)') !!}
+                {!! Form::textarea('tags', null, ['class'=>'form-control']) !!}
+            </div>
+            <div class="form-group">
                 {!! Form::submit('Add Product', ['class'=>'btn btn-primary']) !!}
                 <a href="{{ route('products') }}" class="btn btn-primary">Back</a>
             </div>

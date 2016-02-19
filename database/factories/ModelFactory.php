@@ -37,3 +37,9 @@ $factory->define(CodeCommerce\Product::class, function (Faker\Generator $faker) 
         'category_id' => $faker->numberBetween(1,15)
     ];
 });
+
+$factory->define(CodeCommerce\Tag::class, function (Faker\Generator $faker) {
+    return [
+        'name'        => $faker->word
+    ];
+});

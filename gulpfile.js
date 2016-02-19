@@ -11,6 +11,7 @@ var elixir = require('laravel-elixir');
  |
  */
 
+//PARA GERAR OS CSS MINIFICADOS(.min) É SÓ RODAR O gulp --production
 elixir(function(mix) {
     
     mix.styles([

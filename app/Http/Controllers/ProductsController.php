@@ -11,6 +11,7 @@ use CodeCommerce\Http\Controllers\Controller;
 use CodeCommerce\Product;
 use CodeCommerce\Category;
 use CodeCommerce\ProductImage;
+use CodeCommerce\Tag;
 
 class ProductsController extends Controller
 {
@@ -19,6 +20,19 @@ class ProductsController extends Controller
     public function __construct(Product $productModel)
     {
         $this->productModel = $productModel;
+    }
+    
+    private function extractTagsFromInput($inputTags)
+    {
+        $tagsProducts = [];
+        
+        foreach ($inputTags as $tagName) {
+            $tagName = strtolower(trim($tagName, ' .;-!?#$&@*()|+=_{}[]^~'));
+            $tag = Tag::firstOrCreate(['name'=>$tagName]);
+            array_push($tagsProducts, $tag->id);
+        }
+        
+        return $tagsProducts;
     }
     
     public function index()
@@ -47,8 +61,13 @@ class ProductsController extends Controller
         
         $input = $request->all();
         
+        $tags = explode(',', $input['tags']);
+        $tagsProduct = $this->extractTagsFromInput($tags);
+        
         $product = $this->productModel->fill($input);
         $product->save();
+        
+        $product->tags()->attach($tagsProduct);
         
         return redirect()->route('products');
     }
@@ -63,6 +82,7 @@ class ProductsController extends Controller
     
     public function update(Requests\ProductRequest $request, $id)
     {
+        
         if (!$request['recommend']) {
             $request['recommend'] = 0;
         }
@@ -71,7 +91,13 @@ class ProductsController extends Controller
             $request['featured'] = 0;
         }
         
-        $this->productModel->find($id)->update($request->all());
+        $tags = explode(',', $request['tags']);
+        $tagsProduct = $this->extractTagsFromInput($tags);
+        
+        $product = $this->productModel->find($id);
+        $product->update($request->all());
+        
+        $product->tags()->sync($tagsProduct);
         
         return redirect()->route('products');
     }

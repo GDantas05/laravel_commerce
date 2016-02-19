@@ -36,6 +36,10 @@
                 {!! Form::checkbox('recommend', null, $product->recommend) !!}
             </div>
             <div class="form-group">
+                {!! Form::label('tags','Tags:(separadas por vírgula)') !!}
+                {!! Form::textarea('tags', $product->tagList, ['class'=>'form-control']) !!}
+            </div>
+            <div class="form-group">
                 {!! Form::submit('Edit Product', ['class'=>'btn btn-primary']) !!}
             </div>
         {!! Form::close() !!}
