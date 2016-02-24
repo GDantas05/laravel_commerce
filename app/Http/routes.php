@@ -19,13 +19,25 @@
    return "Não possui id";        
 });*/
 
-Route::get('/', 'StoreController@index');
-Route::get('category/{id}', ['as' => 'store.category', 'uses' => 'StoreController@category']);
-Route::get('product/{id}', ['as' => 'store.product', 'uses' => 'StoreController@product']);
-Route::get('cart', ['as' => 'cart', 'uses' => 'CartController@index']);
-Route::get('cart/add/{id}', ['as' => 'cart.add', 'uses' => 'CartController@add']);
+Route::group(['middleware' => 'web'], function () {
+   Route::get('/', 'StoreController@index');
+   Route::get('category/{id}', ['as' => 'store.category', 'uses' => 'StoreController@category']);
+   Route::get('product/{id}', ['as' => 'store.product', 'uses' => 'StoreController@product']); 
+   Route::get('cart', ['as' => 'cart', 'uses' => 'CartController@index']);
+   Route::get('cart/add/{id}', ['as' => 'cart.add', 'uses' => 'CartController@add']); 
+   Route::get('cart/destroy/{id}', ['as' => 'cart.destroy', 'uses' => 'CartController@destroy']); 
+   Route::get('teste/login', ['as' => 'teste.login', 'uses' => 'TesteController@getLogin']);
+   Route::get('teste/logout', ['as' => 'teste.logout', 'uses' => 'TesteController@getLogout']);
+});
 
-Route::group(['prefix' => 'admin', 'middleware' => 'web', 'where' => ['id' => '[0-9]+']], function() {
+Route::group(['middleware' => ['web', 'auth']], function (){
+    Route::get('checkout/placeOrder', ['as' => 'checkout.place', 'uses' => 'CheckoutController@place']);
+    Route::get('account/orders', ['as' => 'account.orders', 'uses' => 'AccountController@orders']);
+});
+
+Route::get('test', 'CheckoutController@test');
+
+Route::group(['prefix' => 'admin', 'middleware' => ['web', 'auth'], 'where' => ['id' => '[0-9]+']], function() {
     
     Route::group(['prefix' => 'products'], function(){
         Route::get('/', ['as' => 'products', 'uses' => 'ProductsController@index']); 
@@ -52,6 +64,18 @@ Route::group(['prefix' => 'admin', 'middleware' => 'web', 'where' => ['id' => '[
         Route::get('{id}/destroy', ['as' => 'categories.destroy', 'uses' => 'CategoriesController@destroy']);  
         
    });
+});
+
+Route::group(['middleware' => 'web'], function(){
+    Route::controllers([
+        'auth' => 'Auth\AuthController',
+        'password' => 'Auth\PasswordController'
+    ]);
+});
+
+Route::get('evento', function() {
+   //\Illuminate\Support\Facades\Event::fire(new \CodeCommerce\Events\CheckoutEvent()); 
+   event(new \CodeCommerce\Events\CheckoutEvent()); 
 });
 
 //Route::get('admin/categories', 'AdminCategoriesController@index');

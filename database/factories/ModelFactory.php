@@ -11,14 +11,14 @@
 |
 */
 
-$factory->define(CodeCommerce\User::class, function (Faker\Generator $faker) {
+/*$factory->define(CodeCommerce\User::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->name,
         'email' => $faker->email,
         'password' => bcrypt(str_random(10)),
         'remember_token' => str_random(10),
     ];
-});
+});*/
 
 $factory->define(CodeCommerce\Category::class, function (Faker\Generator $faker) {
     return [

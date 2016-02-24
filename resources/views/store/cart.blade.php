@@ -15,7 +15,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($cart->all() as $k=>$item)
+                        @forelse($cart->all() as $k=>$item)
                         <tr>
                             <td class="cart_product">
                                 <a href="#">
@@ -23,23 +23,37 @@
                                 </a>
                             </td>
                             <td class="cart_description">
-                                <h4><a href="#">{{ $item['name'] }}</a></h4>
+                                <h4><a href="{{ route('store.product', ['id' => $k]) }}">{{ $item['name'] }}</a></h4>
                                 <p>Código: {{ $k }}</p>
                             </td>
                             <td class="cart_price">
-                                R$ {{ $item['price'] }}
+                                R$ {{ number_format($item['price'], 2, ", ", ".") }}
                             </td>
                             <td class="cart_quantity">
-                                R$ {{ $item['qtd'] }}
+                                {{ $item['qtd'] }}
                             </td>
                             <td class="cart_total">
-                                <p class="cart_total_price">R$ {{ $item['price'] * $item['qtd'] }}</p>
+                                <p class="cart_total_price">R$ {{ number_format($item['price'] * $item['qtd'], 2, ", ", ".") }}</p>
                             </td>
                             <td class="cart_delete">
-                                <a href="" class="cart_quantity_delete">Delete</a>
+                                <a href="{{ route('cart.destroy', ['id' => $k]) }}" class="cart_quantity_delete">Delete</a>
                             </td>
                         </tr>
-                        @endforeach
+                        @empty
+                            <tr>
+                                <td colspan="6">
+                                    <p class="alert alert-warning">Nenhum produto no carrinho</p>    
+                                </td>
+                            </tr>
+                        @endforelse
+                        <tr class="cart_menu">
+                            <td colspan="6">
+                                <div class="pull-right">
+                                    <span>Total: R$ {{ number_format($cart->getTotal(), 2, ", ", ".") }}</span>
+                                    <a href="{{ route ('checkout.place') }}" class="btn btn-success">Finalizar Pedido</a>
+                                </div>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>

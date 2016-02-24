@@ -37,7 +37,7 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest', ['except' => 'logout']);
+        $this->middleware('guest', ['except' => ['logout', 'getLogout']]); //LINHA ALTERADA POR MIM PARA FUNCIONAR O LOGOUT
     }
 
     /**
@@ -53,6 +53,8 @@ class AuthController extends Controller
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|confirmed|min:6',
         ]);
+
+
     }
 
     /**
